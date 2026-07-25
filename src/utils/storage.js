@@ -6,6 +6,9 @@ const KEYS = {
   COMMENTS: 'comments',
   LIKES: 'likes',
   CURRENT_USER: 'currentUser',
+  FRIEND_REQUESTS: 'friendRequests',
+  MESSAGES: 'messages',
+  AI_SETTINGS: 'aiSettings',
 };
 
 // Generic helpers — read/write any key safely
@@ -54,4 +57,11 @@ export const storage = {
   getCurrentUser: () => getItem(KEYS.CURRENT_USER, null),
   setCurrentUser: (user) => setItem(KEYS.CURRENT_USER, user),
   clearCurrentUser: () => localStorage.removeItem(KEYS.CURRENT_USER),
+
+  // Friend Requests
+  getFriendRequests: () => getItem(KEYS.FRIEND_REQUESTS, []),
+  setFriendRequests: (requests) => setItem(KEYS.FRIEND_REQUESTS, requests),
+  // Messages
+  getMessages: () => getItem(KEYS.MESSAGES, []),
+  setMessages: (messages) => setItem(KEYS.MESSAGES, messages),
 };

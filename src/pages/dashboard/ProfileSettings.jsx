@@ -3,16 +3,19 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 import { fileToBase64 } from '../../utils/helpers';
 import Avatar from '../../components/ui/Avatar';
+import AIProfileOptimize from '../../components/ai/AIProfileOptimize';
 
 export default function ProfileSettings() {
   const { currentUser, updateCurrentUser } = useAuth();
   const [avatarPreview, setAvatarPreview] = useState(currentUser.avatar);
   const [successMessage, setSuccessMessage] = useState('');
+  const [aiBioSuggestion, setAiBioSuggestion] = useState('');
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -92,7 +95,15 @@ export default function ProfileSettings() {
 
           {/* Bio */}
           <div>
-            <label className="text-sm font-semibold text-ink block mb-2">Bio</label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-semibold text-ink">Bio</label>
+              <AIProfileOptimize
+                name={watch('name')}
+                bio={bio}
+                location={watch('location')}
+                onSuggestion={setAiBioSuggestion}
+              />
+            </div>
             <textarea
               rows={3}
               maxLength={bioLimit}
@@ -114,6 +125,23 @@ export default function ProfileSettings() {
                 {bio.length} / {bioLimit}
               </span>
             </div>
+
+            {aiBioSuggestion && (
+              <div className="mt-2 bg-violet-50 border border-violet-200 rounded-lg p-3">
+                <p className="text-xs text-gray-500 mb-1.5">Suggested bio:</p>
+                <p className="text-sm text-gray-700 mb-3">{aiBioSuggestion}</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setValue('bio', aiBioSuggestion, { shouldValidate: true });
+                    setAiBioSuggestion('');
+                  }}
+                  className="text-sm font-medium text-violet-600 border border-violet-300 hover:bg-violet-50 transition-colors px-4 py-1.5 rounded-full"
+                >
+                  Use Suggestion
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Location */}

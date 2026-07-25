@@ -4,8 +4,9 @@ import { useAuth } from '../../context/AuthContext';
 import { storage, generateId } from '../../utils/storage';
 import { formatDate } from '../../utils/helpers';
 import Avatar from '../ui/Avatar';
+import AICommentSuggest from '../ai/AICommentSuggest';
 
-export default function CommentSection({ postId }) {
+export default function CommentSection({ postId, postDescription }) {
   const { currentUser, isAuthenticated } = useAuth();
   const [commentText, setCommentText] = useState('');
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
@@ -53,25 +54,30 @@ export default function CommentSection({ postId }) {
 
       {/* Add comment form */}
       {isAuthenticated ? (
-        <form onSubmit={handleAddComment} className="flex gap-3 mb-6">
-          <Avatar src={currentUser.avatar} name={currentUser.name} size="sm" />
-          <div className="flex-1 flex gap-2">
-            <input
-              type="text"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write a comment..."
-              className="flex-1 px-4 py-2 border border-gray-200 rounded-full outline-none focus:ring-2 focus:ring-violet-400 transition-all text-sm"
-            />
-            <button
-              type="submit"
-              disabled={!commentText.trim()}
-              className="text-sm font-medium text-white bg-violet-500 hover:bg-violet-600 transition-colors px-5 py-2 rounded-full disabled:opacity-40"
-            >
-              Post
-            </button>
+        <div className="mb-6">
+          <form onSubmit={handleAddComment} className="flex gap-3">
+            <Avatar src={currentUser.avatar} name={currentUser.name} size="sm" />
+            <div className="flex-1 flex gap-2">
+              <input
+                type="text"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Write a comment..."
+                className="flex-1 px-4 py-2 border border-gray-200 rounded-full outline-none focus:ring-2 focus:ring-violet-400 transition-all text-sm"
+              />
+              <button
+                type="submit"
+                disabled={!commentText.trim()}
+                className="text-sm font-medium text-white bg-violet-500 hover:bg-violet-600 transition-colors px-5 py-2 rounded-full disabled:opacity-40"
+              >
+                Post
+              </button>
+            </div>
+          </form>
+          <div className="ml-11 mt-2">
+            <AICommentSuggest postDescription={postDescription} onSuggestion={setCommentText} />
           </div>
-        </form>
+        </div>
       ) : (
         <p className="text-gray-500 text-sm mb-6 bg-sand/40 px-4 py-3 rounded-xl">
           <Link to="/login" className="text-violet-600 font-medium hover:underline">

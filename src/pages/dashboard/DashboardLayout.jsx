@@ -17,16 +17,14 @@ export default function DashboardLayout() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-      {/* Mobile: top header bar with hamburger */}
-      <div className="lg:hidden flex items-center justify-end mb-6 bg-ink rounded-2xl px-4 py-3">
-        <button
-          onClick={() => setIsSidebarOpen(true)}
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white text-lg transition-colors"
-          aria-label="Open dashboard menu"
-        >
-          ☰
-        </button>
-      </div>
+      {/* Mobile: floating hamburger button, bottom-right */}
+      <button
+        onClick={() => setIsSidebarOpen(true)}
+        className="lg:hidden fixed bottom-6 right-6 z-30 w-14 h-14 rounded-full bg-ink text-white text-xl flex items-center justify-center shadow-lg"
+        aria-label="Open dashboard menu"
+      >
+        ☰
+      </button>
 
       <div className="flex gap-10">
         {/* Mobile: dark overlay behind sidebar */}

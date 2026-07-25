@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { usePosts } from '../../hooks/usePosts';
 import { fileToBase64 } from '../../utils/helpers';
+import AIPostAssistant from '../../components/ai/AIPostAssistant';
 
 export default function CreatePost() {
   const { createPost } = usePosts();
@@ -89,6 +90,8 @@ export default function CreatePost() {
 
       <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
         <form className="flex flex-col gap-6">
+          <AIPostAssistant onUseContent={(text) => setValue('description', text, { shouldValidate: true })} />
+
           {/* Description */}
           <div>
             <label className="text-sm font-semibold text-ink block mb-2">
