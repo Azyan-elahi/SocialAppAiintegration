@@ -64,4 +64,8 @@ export const storage = {
   // Messages
   getMessages: () => getItem(KEYS.MESSAGES, []),
   setMessages: (messages) => setItem(KEYS.MESSAGES, messages),
+
+  // AI chat settings (per-user map: { [userId]: { aiChatEnabled, aiPersonality } })
+  getAISettings: () => getItem(KEYS.AI_SETTINGS, {}),
+  setAISettings: (settings) => setItem(KEYS.AI_SETTINGS, settings),
 };
